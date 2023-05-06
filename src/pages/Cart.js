@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { BsFillCartFill } from "react-icons/bs";
 import { BiRupee } from "react-icons/bi";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import noData from '../Assets/noData.svg';
+import { showToast } from '../store/toastSlice';
+import { clear } from '../store/cartSlice';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [placeOrder, setPlaceOrder] = useState(false);
   const cart = useSelector(state => state.cart.value);
+  const dispatch = useDispatch();
 
   useEffect( () => {
     setCartItems(cart);
@@ -25,6 +30,12 @@ const Cart = () => {
     })
     setTotalPrice(total);
     setLoading(false);
+  }
+
+  const handleOrder = () => {
+    setPlaceOrder(true);
+    dispatch(clear());
+    dispatch(showToast('Order has been successfullly placed!')) 
   }
 
   return (
@@ -49,6 +60,14 @@ const Cart = () => {
                   </>
                 )
               })) 
+              : placeOrder ?
+                <div className='flex flex-col items-center text-green-700 justify-center text-center text-bold text-[28px] mt-20'>
+                  Success! Your order has been placed.
+                  <img src={noData} alt='' className='w-60 h-60' />
+                  <Link to='/'>
+                    <div className='text-bold text-[20px] mt-5 text-blue-700' >Click here to shop more</div>
+                  </Link>
+                </div>
               :
               <div className='flex flex-col items-center justify-center text-center text-bold text-[22px] mt-20'>
                 Oops! Your cart is empty.
@@ -74,7 +93,7 @@ const Cart = () => {
           <div className=''>Total Amount</div>
           <span className='flex items-center gap-2'><BiRupee className='w-5 h-5' />{totalPrice+50}</span>
         </div>
-        <div className='w-36 h-10 p-2 mt-10 mx-auto rounded-md bg-blue-700 hover:bg-blue-600 cursor-pointer flex flex-row items-center justify-center gap-2'>
+        <div onClick={handleOrder} className='w-36 h-10 p-2 mt-10 mx-auto rounded-md bg-blue-700 hover:bg-blue-600 cursor-pointer flex flex-row items-center justify-center gap-2'>
             <BsFillCartFill className='w-4 h-4 text-white' /> 
             <span className='font-white text-lg text-white'>Place Order</span>
         </div>

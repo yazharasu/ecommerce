@@ -17,10 +17,10 @@ const ProductCard = (props) => {
         <div className={`rounded-lg flex flex-row items-center min-w-[300px] animate-pulse ${type=="cart" ? "w-full gap-6" :"max-w-[632px] drop-shadow-lg hover:scale-[1.01] border-2 border-solid gap-4"} h-56 p-4 `}>
             <div className='h-full min-w-[192px] max-w-[192px] flex justify-center bg-gray-200 dark:bg-gray-300'>
             </div>
-            <div className='flex flex-col justify-between gap-4 !min-w-[calc(100%-192px)] !max-w-[calc(100%-192px)] h-full'>
-                <div className="h-5 bg-gray-200 rounded-full dark:bg-gray-300 md:w-full mb-4"></div>
-                <div className="h-5 bg-gray-200 rounded-full dark:bg-gray-300 md:w-full mb-4"></div>
-                <div className="h-5 bg-gray-200 rounded-full dark:bg-gray-300 md:w-full mb-4"></div>
+            <div className='flex flex-col justify-between gap-4 w-[calc(100%-176px)] p-2 h-full'>
+                <div className="h-5 bg-gray-200 dark:bg-gray-300 md:w-full mb-4"></div>
+                <div className="h-5 bg-gray-200 dark:bg-gray-300 md:w-full mb-4"></div>
+                <div className="h-5 bg-gray-200 dark:bg-gray-300 md:w-full mb-4"></div>
             </div>
         </div>
     :

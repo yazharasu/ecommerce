@@ -60,10 +60,9 @@ const ProductPage = () => {
         
     }
     
-
     return (
         <>
-        <div className='flex flex-col bg-white drop-shadow mx-auto rounded-md xl:flex-row p-8 max-w-[1366px] h-full gap-8'>
+        <div className='flex flex-col bg-white drop-shadow mx-auto rounded-md xl:flex-row p-8 w-full max-w-[1366px] h-full gap-8'>
             <div className='flex flex-col justify-center items-center gap-y-6'>
                 <div className='h-96 w-96'>
                     {loading ?
@@ -87,7 +86,7 @@ const ProductPage = () => {
                 </div>
             </div>
 
-            <div className='flex flex-col justify-start items-start gap-2'>
+            <div className='flex flex-col justify-start items-start gap-2 w-full xl:w-[calc(100%-160px)]'>
                 <div className='font-medium text-[20px]'>
                     {productData.title}
                 </div>
@@ -108,7 +107,7 @@ const ProductPage = () => {
 
                 <div className='flex flex-col items-start gap-2 mt-4'>
                     <div className='font-medium text-base text-gray-700'>Produect Description</div>
-                    <div className='font-normal text-base text-gray-700 '>{productData?.description}</div>
+                    <div className='font-normal text-base text-gray-700'>{productData?.description}</div>
                 </div>
 
                 <div className='font-medium text-base text-gray-700 mt-8'>

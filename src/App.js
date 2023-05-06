@@ -11,7 +11,7 @@ function App() {
 
   return (
     <BrowserRouter>
-    <div className='flex flex-col bg-slate-50'>
+    <div className='flex flex-col bg-slate-50 min-h-screen'>
       <Header />
         <Routes>
           <Route path="/" element={<Home />} />

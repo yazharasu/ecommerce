@@ -13,7 +13,9 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect( () => {
-        getProducts();
+        if(category==='All Categories') {
+            getProducts();
+        }
     }, [cart]);
 
     useEffect( () => {
@@ -48,12 +50,13 @@ const Home = () => {
     };
 
     const handleFilter = (e) => {
-        e.preventDefault();
+        setLoading(true)
         setCategory(e.target.textContent);
         setOpen(!open);
         filterCategory(e.target.textContent)
             .then( (res) => {
-                setProducts( res )
+                setProducts(res)
+                setLoading(false)
         })
     };
 
@@ -85,12 +88,12 @@ const Home = () => {
         </div>
 
         <div className='!gap-4 mx-auto grid grid-cols-1 lg:grid-cols-2 w-full'>
-        {   loading ?
-                Array(6).fill('').map( (item, index) => {
-                    return (
-                        <ProductCard product={item} key={index} loading={loading}/>
-                    )
-                })            :
+        {loading ?
+            Array(6).fill('').map( (item, index) => {
+                return (
+                    <ProductCard product={item} key={index} loading={loading}/>
+                )
+            })            :
             products?.map( (item) => {
                 return (
                     <ProductCard product={item} key={item.id} />
