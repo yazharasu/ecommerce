@@ -9,11 +9,11 @@ import { showToast } from '../store/toastSlice';
 import { clear } from '../store/cartSlice';
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const cart = useSelector(state => state.cart.value);
+  const [cartItems, setCartItems] = useState(cart);
   const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(true);
   const [placeOrder, setPlaceOrder] = useState(false);
-  const cart = useSelector(state => state.cart.value);
   const dispatch = useDispatch();
 
   useEffect( () => {
@@ -23,7 +23,7 @@ const Cart = () => {
 
   const calcPrice = () => {
     let total = 0
-    cartItems.forEach( (i) => {
+    cartItems?.forEach( (i) => {
       if(i && i.price) {
         total += i.price;
       }
@@ -82,7 +82,7 @@ const Cart = () => {
         
         <div className='flex flex-row justify-between items-center text-gray-700 font-normal my-2 text-xl'>
           <div className=''>Price ({cartItems?.length} item)</div>
-          <span className='flex items-center gap-2'><BiRupee className='w-5 h-5' />{totalPrice}</span>
+          <span className='flex items-center gap-2'><BiRupee className='w-5 h-5' />{totalPrice.toFixed(2)}</span>
         </div>
         <div className='flex flex-row justify-between items-center text-gray-700 font-normal my-2 text-xl'>
           <div className=''>Delivery Charges</div>

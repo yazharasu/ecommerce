@@ -41,7 +41,6 @@ const Home = () => {
         getAllCategories()
             .then( (res) => {
                 setAllCategories( res )
-                console.log(res)
             })
     };
 
