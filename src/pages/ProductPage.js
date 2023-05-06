@@ -73,7 +73,7 @@ const ProductPage = () => {
                     }
                 </div>
                 <div className='flex gap-5'>
-                    <div className='w-40 h-10 p-2 rounded-md bg-blue-700 hover:bg-blue-600 cursor-pointer flex flex-row items-center justify-center gap-2'>
+                    <div className={` ${productData.addedToCart ? "w-48 bg-green-700 hover:bg-green-600" : "w-40 bg-blue-700 hover:bg-blue-600" }  h-10 p-2 rounded-md  cursor-pointer flex flex-row items-center justify-center gap-2`}>
                         <BsFillCartFill className='w-4 h-4 text-white' /> 
                         <span onClick={handleCart} className='font-white text-lg text-white'>{productData.addedToCart ? "Remove from Cart" : "Add to Cart"}</span>
                     </div>
