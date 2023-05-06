@@ -57,7 +57,6 @@ const ProductPage = () => {
             dispatch(remove(productData)); 
             dispatch(showToast('Item removed from the cart')) 
         }
-        
     }
     
     return (
@@ -76,7 +75,7 @@ const ProductPage = () => {
                 <div className='flex gap-5'>
                     <div className='w-40 h-10 p-2 rounded-md bg-blue-700 hover:bg-blue-600 cursor-pointer flex flex-row items-center justify-center gap-2'>
                         <BsFillCartFill className='w-4 h-4 text-white' /> 
-                        <span onClick={handleCart} className='font-white text-lg text-white'>{productData.addedToCart ? "Added to Cart" : "Add to Cart"}</span>
+                        <span onClick={handleCart} className='font-white text-lg text-white'>{productData.addedToCart ? "Remove from Cart" : "Add to Cart"}</span>
                     </div>
                     <Link to="/">
                         <div className='w-36 h-10 p-2 rounded-md bg-orange-600 hover:bg-orange-500 cursor-pointer flex flex-row items-center justify-center gap-2'>
