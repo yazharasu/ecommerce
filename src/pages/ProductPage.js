@@ -115,7 +115,7 @@ const ProductPage = () => {
                 </div>
             </div>
         </div>
-        <SimilarProducts category={productData?.category} />
+        <SimilarProducts category={productData?.category} itemId={productData?.id} />
         </>
     )
 }
