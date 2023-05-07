@@ -25,23 +25,25 @@ const Home = () => {
     const getProducts = () => {
         getAllProducts()
             .then( (res) => {
-                res?.forEach( (item) => {
+                res?.data?.forEach( (item) => {
                     if(cart?.some( obj => obj.id === item.id)){
                         item.addedToCart = true;
                     } else {
                         item.addedToCart = false;
                     }
                 })
-                setProducts(res);
+                setProducts(res.data);
                 setLoading(false);
             })
+            .catch( (error) => console.log(error))
     };
 
     const getCategories = () => {
         getAllCategories()
             .then( (res) => {
-                setAllCategories( res )
+                setAllCategories( res.data )
             })
+            .catch( (error) => console.log(error))
     };
 
     const handleOpen = () => {
@@ -54,9 +56,10 @@ const Home = () => {
         setOpen(!open);
         filterCategory(e.target.textContent)
             .then( (res) => {
-                setProducts(res)
+                setProducts(res?.data)
                 setLoading(false)
-        })
+            })
+            .catch( (error) => console.log(error))
     };
 
   return (

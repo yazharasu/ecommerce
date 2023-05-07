@@ -15,10 +15,12 @@ const SimilarProducts = (props) => {
     const getSimilarProducts = () => {    
             filterCategory(category)
             .then( (res) => {
+                res = res?.data;
                 res = res?.length ? res.filter( (i) => i.id !== itemId ) : [];
                 setProducts(res);
                 setLoading(false);
             })
+            .catch( (error) => console.log(error))
     };
 
   return (

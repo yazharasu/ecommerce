@@ -28,7 +28,7 @@ const ProductPage = () => {
     }, [id]);
 
     useEffect( () => {
-        if(cart?.some( obj => obj.id === productData.id)){
+        if(cart?.some(obj => obj.id === productData.id)){
             setProductData( {...productData, addedToCart:true })
         } else {
             setProductData( {...productData, addedToCart:false })
@@ -38,6 +38,7 @@ const ProductPage = () => {
     const getProduct = () => {
         getSingleProduct(id)
             .then( (res) => {
+                    res = res.data;
                     if(cart?.some( obj => obj.id === res.id)){
                         res.addedToCart = true;
                     } else {
@@ -46,6 +47,8 @@ const ProductPage = () => {
                 setProductData(res);
                 setLoading(false);
             })
+            .catch( (error) => console.log(error))
+
     }
 
     const handleCart = (e) => {
