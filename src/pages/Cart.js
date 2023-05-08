@@ -11,6 +11,7 @@ import { clear } from '../store/cartSlice';
 const Cart = () => {
   const cart = useSelector(state => state.cart.value);
   const [cartItems, setCartItems] = useState(cart);
+  const [totItems, setTotItems] = useState(cartItems? cartItems.length: 0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(true);
   const [placeOrder, setPlaceOrder] = useState(false);
@@ -19,14 +20,18 @@ const Cart = () => {
   useEffect( () => {
     setCartItems(cart);
     calcPrice();
-  }, [cart]);
+  }, [cart, cartItems, totItems]);
 
   const calcPrice = () => {
     let total = 0
+    let itemsCount = 0
     cartItems?.forEach( (i) => {
       if(i && i.price) {
-        total += i.price;
+        let ip = i.price * i.quantity;
+        total += ip;
+        itemsCount += i.quantity;
       }
+      setTotItems(itemsCount);
     })
     setTotalPrice(total);
     setLoading(false);
@@ -52,11 +57,11 @@ const Cart = () => {
             })            
             :
             cartItems?.length ?
-              ( cartItems.map( (item) => {
+              (cartItems.map( (item) => {
                 return(
                   <>
-                  <ProductCard product={item} type="cart" key={item.id}/>
-                  <div className='w-full h-[1px] bg-gray-200 my-4'></div>
+                    <ProductCard product={item} type="cart" key={item.id}/>
+                    <div className='w-full h-[1px] bg-gray-200 my-4'></div>
                   </>
                 )
               })) 
@@ -79,9 +84,8 @@ const Cart = () => {
       <div className={`${cartItems?.length>0 ? "col-span-3 md:col-span-1" : "hidden"}  bg-white rounded-md drop-shadow-lg p-5 w-full`}>
         <div className='text-gray-700 font-bold my-2 text-xl gap-5'>PRICE DETAILS</div>
         <div className='w-full h-[1px] bg-gray-300 mb-5'></div>
-        
         <div className='flex flex-row justify-between items-center text-gray-700 font-normal my-2 text-xl'>
-          <div className=''>Price ({cartItems?.length} item)</div>
+          <div className=''>Price ({totItems} {totItems >1 ? 'items' :'item'})</div>
           <span className='flex items-center gap-2'><BiRupee className='w-5 h-5' />{totalPrice.toFixed(2)}</span>
         </div>
         <div className='flex flex-row justify-between items-center text-gray-700 font-normal my-2 text-xl'>
@@ -91,7 +95,7 @@ const Cart = () => {
         <div className='w-full h-[1px] bg-gray-300 my-5'></div>
         <div className='flex flex-row justify-between items-center text-gray-700 font-bold my-2 text-xl'>
           <div className=''>Total Amount</div>
-          <span className='flex items-center gap-2'><BiRupee className='w-5 h-5' />{totalPrice+50}</span>
+          <span className='flex items-center gap-2'><BiRupee className='w-5 h-5' />{(totalPrice+50).toFixed(2)}</span>
         </div>
         <div onClick={handleOrder} className='w-36 h-10 p-2 mt-10 mx-auto rounded-md bg-blue-700 hover:bg-blue-600 cursor-pointer flex flex-row items-center justify-center gap-2'>
             <BsFillCartFill className='w-4 h-4 text-white' /> 

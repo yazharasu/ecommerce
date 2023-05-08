@@ -1,15 +1,18 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { BiRupee } from "react-icons/bi";
 import { AiFillStar } from "react-icons/ai";
 import { BsFillCartFill } from "react-icons/bs";
 import { useDispatch } from 'react-redux';
-import { add, remove } from '../store/cartSlice';
+import { add, remove, setQuantity } from '../store/cartSlice';
 import { Link } from 'react-router-dom';
 import { showToast } from '../store/toastSlice';
 
 const ProductCard = (props) => {
-    const {product, type, loading} = props;
+    const {product, type, loading}= props;
+    const [quantity, setQty] = useState(product?.quantity ? product.quantity : 1); 
+    const [open, setOpen] = useState(false); 
     const dispatch = useDispatch();
+    let qtylist = [1,2,3,4,5,6,7,8,9];
 
     const handleCart = () => {
         if(type==='cart') {
@@ -19,10 +22,21 @@ const ProductCard = (props) => {
             dispatch(remove(product)); 
             dispatch(showToast('Item removed from the cart')) 
         } else if (!product?.addedToCart) {
+            product.quantity = 1;
             dispatch(add(product)); 
             dispatch(showToast('Item added to the cart')) 
         }
     }
+
+    const handleOpen = () => {
+        setOpen(!open);
+    };
+
+    const handleQty = (e) => {
+        setQty(e.target.textContent)
+        dispatch( setQuantity({id: product.id, quantity: parseInt(e.target.textContent)}) );
+        handleOpen();
+    };
 
   return (
     <>
@@ -61,12 +75,30 @@ const ProductCard = (props) => {
                     <span className='text-center'>{product?.price}</span>
                 </div>
                 </Link>
-                {
-                    type=="cart" ? 
-                    <div onClick={handleCart} 
-                        className='w-full flex flex-row justify-start items-center mt-5 md:mt-0 gap-2 cursor-pointer'>
-                        <BsFillCartFill className='w-3 h-3 text-blue-900' /> 
-                        <span className='font-white text-sm text-blue-900'>Remove Item</span>
+                {type==="cart" ? 
+                    <div className='flex flex-row items-center relative gap-5'>
+                        <div className='flex flex-row items-center gap-2'>
+                            <span className='text-sm text-gray-700 cursor-pointer' onClick={handleOpen}>Quantity</span>
+                            <button onClick={handleOpen} className='w-10 h-7 rounded-sm border-2 border-solid border-gray-400 capitalize'>
+                                {quantity}
+                            </button>
+                        </div>
+                        <div onClick={handleCart} 
+                            className='w-28 flex flex-row justify-start items-center mt-5 md:mt-0 gap-2 cursor-pointer'>
+                            <BsFillCartFill className='w-3 h-3 text-blue-900' /> 
+                            <span className='font-white text-sm text-blue-900'>Remove Item</span>
+                        </div>
+                        {open ? (
+                            <ul className="p-1 w-10 h-40 overflow-scroll mt-1 absolute left-[60px] top-7 z-10 bg-white rounded-md drop-shadow border-2 border-solid border-gray-400">
+                                {qtylist.map( (qty) => {
+                                    return (
+                                        <li className="text-gray-800 p-2 rounded-md hover:bg-slate-300" key={qty} onClick={handleQty}>
+                                            <button className="capitalize">{qty}</button>
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        ) : null}
                     </div>
                 :
                     <div onClick={handleCart} 

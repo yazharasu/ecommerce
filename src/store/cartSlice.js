@@ -7,7 +7,7 @@ export const cartSlice = createSlice({
   },
   reducers: {
     add: (state, action) => {
-      state.value = [ ...state.value, action.payload ]
+      state.value = [...state.value, action.payload]
     },
     remove:  (state, action) => {
       state.value = [...state.value].filter( item => {
@@ -16,10 +16,20 @@ export const cartSlice = createSlice({
     },
     clear: (state) => {
       state.value.length = 0
-    }
+    },
+    setQuantity: (state, action) => {
+      const { id, quantity } = action.payload;
+      const updatedItems = state.value.map(item => {
+        if (item.id === id) {
+          return { ...item, quantity: quantity };
+        }
+        return item;
+      });
+      state.value =  updatedItems;
+    },
   }
 })
 
-export const { add, remove, clear } = cartSlice.actions
+export const { add, remove, clear, setQuantity } = cartSlice.actions
 
 export default cartSlice.reducer
