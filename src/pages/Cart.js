@@ -11,7 +11,6 @@ import { clear } from '../store/cartSlice';
 const Cart = () => {
   const cart = useSelector(state => state.cart.value);
   const [cartItems, setCartItems] = useState(cart);
-  const [totItems, setTotItems] = useState(cartItems? cartItems.length: 0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(true);
   const [placeOrder, setPlaceOrder] = useState(false);
@@ -20,18 +19,15 @@ const Cart = () => {
   useEffect( () => {
     setCartItems(cart);
     calcPrice();
-  }, [cart, cartItems, totItems]);
+  }, [cart, cartItems]);
 
   const calcPrice = () => {
     let total = 0
-    let itemsCount = 0
     cartItems?.forEach( (i) => {
       if(i && i.price) {
         let ip = i.price * i.quantity;
         total += ip;
-        itemsCount += i.quantity;
       }
-      setTotItems(itemsCount);
     })
     setTotalPrice(total);
     setLoading(false);
@@ -85,7 +81,7 @@ const Cart = () => {
         <div className='text-gray-700 font-bold my-2 text-xl gap-5'>PRICE DETAILS</div>
         <div className='w-full h-[1px] bg-gray-300 mb-5'></div>
         <div className='flex flex-row justify-between items-center text-gray-700 font-normal my-2 text-xl'>
-          <div className=''>Price ({totItems} {totItems >1 ? 'items' :'item'})</div>
+          <div className=''>Price ({cartItems?.length} {cartItems?.length >1 ? 'items' :'item'})</div>
           <span className='flex items-center gap-2'><BiRupee className='w-5 h-5' />{totalPrice.toFixed(2)}</span>
         </div>
         <div className='flex flex-row justify-between items-center text-gray-700 font-normal my-2 text-xl'>
